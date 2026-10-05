@@ -1,0 +1,91 @@
+<!-- Tombol pemilih mode (Trial/Challenge) -->
+<button type="button" id="switch-mode" onclick="ganti-mode()">Latihan</button>
+
+<!-- Tombol Switch-mode 1v / 2v / 3v --->
+<button type="button" id="switch-var" onclick="ganti-var()">Satu Variabel</button>
+
+<!-- Timer -->
+<div id="timer">00:00</div>
+
+<!-- Pemilih Level -->
+<details>
+  <summary>Pilih Level Game</summary>
+  
+<!-- Pilihan yang muncul saat diklik -->
+  <button type="button" onclick="pilihLevel(1)">Level 1</button>
+  <button type="button" onclick="pilihLevel(2)">Level 2</button>
+  <button type="button" onclick="pilihLevel(3)">Level 3</button>
+</details>
+
+<!-- Pemilih waktu -->
+<details id="Wrap-waktu">
+  <summary>Opsi Waktu</summary>
+<button type="button" onclick="waktu('tanpa_waktu')">Tanpa Waktu</button>
+<button type="button" onclick="waktu(180)">3 Menit</button>
+  <button type="button" onclick="waktu(300)">5 Menit</button>
+  <button type="button" onclick="waktu(600)">10 Menit</button>
+</details>
+  
+<!-- Area Soal -->
+<div id="Soal">Memuat Soal...</div>
+
+<!-- Area Menjawab game -->
+<button id="mulai" type="button" onclick="mulai_game()">Mulai</button>
+
+<input id="jawaban_x" type="number" placeholder="Nilai x">
+<input id="jawaban_y" type="number" placeholder="Nilai y" style="display: none;">
+<input id="jawaban_z" type="number" placeholder="Nilai z" style="display: none;">
+
+<button id="cek" onclick="cek_jawaban()" type="button">Cek</button>
+
+<!-- Hasil & skor -->
+<div id="pesan hasil"></div>
+<div id="skor-game">0</div>
+
+<script>
+  
+// Konfigurasi game utama (Bisa diubah berdasarkan level) 
+let gameConfig = {
+  Mode: 'Latihan',
+  Variabel: 'Spldv', 
+  Waktu: 'Tanpa_Waktu',
+  Level: 'Level_1'
+};
+
+
+// Konfigurasi range
+let minAngka = 1;
+let maxAngka = 5;
+  
+// Timer
+let waktusisa= 0;
+let timeinterval= null;
+  
+// Format detik menjadi tampilan MM : SS
+function updateTampilanTimer (detik) {
+  const elTimer = document.getElementById ("timer"); if(! elTimer) return;
+  
+  if (detik === null || detik === undefined || isNaN (detik)) { elTimer. innerText = "00:00"; return; }
+  
+  const m = Math.floor(detik/60)
+
+// Variabel Penampung soal
+let Koefisien_A, Koefisien_B, Koefisien_C // angka pengali (a, b, dan c) 
+let Kunci_x, Kunci_y, Kunci_z // Variabel yang bilang
+let Total_target; // hasil total
+  
+// Hasil game
+let skor = 0;
+  
+// Fungsi mulai game
+function mulai_game() {
+  skor = 0;
+  const elSkor : document.getElementById ("skor-game"); 
+  if (elSkor) elSkor.innerText = skor;
+  
+//Mengacak soal
+  acakSoal() 
+}
+  
+  
+</script>
