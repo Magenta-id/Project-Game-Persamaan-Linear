@@ -50,7 +50,79 @@ function mulai_game() {
 //Mengacak soal
   acakSoal() 
 
-  const inputx : document.getElementById ('')
+  const nilai_x : document.getElementById ('jawaban_x');
+  const nilai_y : document.getElementById ('jawaban_y');
+  const nilai_z : document.getElementById ('jawaban_z');
+ const btncek : document.getElementById ('cek');
+
+  if (nilai_x && nilai_y && nilai_z) 
+  {
+    // Buka kunci ketiga input
+    nilai_x.disabled = false;
+    nilai_y.disabled = false;
+    nilai_z.disabled = false;
+
+    // Mengosongkan tiga input
+    nilai_x.value = "";
+    nilai_y.value = "";
+    nilai_z.value = "";
+
+     // Taruh kursor langsung di input pertama (x)
+    nilai_x.focus() 
+  }
+  if (btncek).disabled = false;
+
+  hentikanTimer();
+
+  if (gameConfig.waktu !=='tanpa_waktu') {
+  parselnt(gameConfig.waktu,10);
+ updateTampilanTimer (waktuSisa);
+  
+  timerInterval = setInterval(function(){waktuSisa--; 
+ updateTampilanTimer (waktuSisa);
+  if (waktuSisa <= 0) {
+        hentikanTimer();
+
+        if (jawaban_x) jawaban_x.disabled = true;
+        if (jawaban_y) jawaban_y.disabled = true;
+        if (jawaban_z) jawaban_z.disabled = true;
+        if (cek) cek.disabled = true;
+
+        const pesan = document.getElementById("pesan-hasil");
+        if (pesan) {
+          pesan.style.color = "#d32f2f";
+          pesan.innerText = "Waktu Habis!"; }
+   }
+  },1000) } else { updateTampilanTimer (null);}
 }
 
-
+//Fungsi acak soal
+function acakSoal (){
+  if (gameConfig.mode === 'PLSV') {
+    if (gameConfig.level === 'lvl_1') {
+      minAngka = 1; maxAngka = 5;
+    } else if (gameConfig.level === 'lvl_2') {
+      minAngka = 1; maxAngka = 10;
+    } else if (gameConfig.level === 'lvl_3') {
+      minAngka = 5; maxAngka = 12;
+    }
+  } else {
+    if (gameConfig.mode === 'challenge') {
+    if (gameConfig.level === 'lvl_1') {
+      minAngka = 1; maxAngka = 5;
+    } else if (gameConfig.level === 'lvl_2') {
+      minAngka = 1; maxAngka = 10;
+    } else if (gameConfig.level === 'lvl_3') {
+      minAngka = 5; maxAngka = 12;
+    }
+  } else {
+      if (gameConfig.mode === 'challenge') {
+    if (gameConfig.level === 'lvl_1') {
+      minAngka = 1; maxAngka = 5;
+    } else if (gameConfig.level === 'lvl_2') {
+      minAngka = 1; maxAngka = 10;
+    } else if (gameConfig.level === 'lvl_3') {
+      minAngka = 5; maxAngka = 12;
+    }
+  }
+}
