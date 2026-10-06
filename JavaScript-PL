@@ -1,0 +1,56 @@
+
+  
+// Konfigurasi game utama (Bisa diubah berdasarkan level) 
+let gameConfig = {
+  Mode: 'Latihan',
+  Variabel: 'Spldv', 
+  Waktu: 'Tanpa_Waktu',
+  Level: 'Level_1'
+};
+
+
+// Konfigurasi range
+let minAngka = 1;
+let maxAngka = 5;
+  
+// Timer
+let waktusisa= 0;
+let timeinterval= null;
+  
+// Format detik menjadi tampilan MM : SS
+function updateTampilanTimer (detik) {
+  const elTimer = document.getElementById ("timer"); if(!elTimer) return;
+  
+  if (detik === null || detik === undefined || isNaN (detik)) { elTimer. innerText = "00:00"; return; }
+  
+  const m = Math.floor(detik/60).toString().padStart(2,'0');
+eltimer.innerText: m + ":" + s;}
+
+//Hentikan interval timer
+function hentikanTimer () {
+  if (timeInterval) {
+    clearInterval (timerInterval); clearInterval = null;
+  }
+}
+
+// Variabel Penampung soal
+let Koefisien_A, Koefisien_B, Koefisien_C // angka pengali (a, b, dan c) 
+let Kunci_x, Kunci_y, Kunci_z // Variabel yang bilang
+let Total_target; // hasil total
+  
+// Hasil game
+let skor = 0;
+  
+// Fungsi mulai game
+function mulai_game() {
+  skor = 0;
+  const elSkor : document.getElementById ("skor-game"); 
+  if (elSkor) elSkor.innerText = skor;
+  
+//Mengacak soal
+  acakSoal() 
+
+  const inputx : document.getElementById ('')
+}
+
+
