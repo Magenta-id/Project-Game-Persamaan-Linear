@@ -1,13 +1,29 @@
-
-  
 // Konfigurasi game utama (Bisa diubah berdasarkan level) 
 let gameConfig = {
   Mode: 'Latihan',
-  Variabel: 'Spldv', 
+  Variabel: 'PLSV', 
   Waktu: 'Tanpa_Waktu',
   Level: 'Level_1'
 };
 
+//Fungsi mengaktifkan dan menonaktifkan waktu
+function pilihMode(modePilihan) { gameConfig.Mode = modePilihan;
+
+  const tombolWaktu = document.querySelectAll ('#Wrap-waktu button') 
+
+ if (gameConfig.Mode === 'Tantangan'){
+   tombolWaktu.forEach (tombol => tombol.disabled = true); } else { tombolWaktu.forEach (tombol => tombol.disabled = false); }
+}                               
+// Versi tradisional tombolWaktu.forEach(function(tombol) {tombol.disabled = true;});
+
+// Fungsi Penangkap Klik dari HTML
+function pilihLevel (lvl){
+  gameConfig.Level = lvl
+}
+
+function Variabel (var){
+  gameConfig.Variabel = var
+}
 
 // Konfigurasi range
 let minAngka = 1;
@@ -97,32 +113,32 @@ function mulai_game() {
 }
 
 //Fungsi acak soal
-function acakSoal (){
-  if (gameConfig.mode === 'PLSV') {
-    if (gameConfig.level === 'lvl_1') {
-      minAngka = 1; maxAngka = 5;
-    } else if (gameConfig.level === 'lvl_2') {
-      minAngka = 1; maxAngka = 10;
-    } else if (gameConfig.level === 'lvl_3') {
-      minAngka = 5; maxAngka = 12;
-    }
-  } else {
-    if (gameConfig.mode === 'challenge') {
-    if (gameConfig.level === 'lvl_1') {
-      minAngka = 1; maxAngka = 5;
-    } else if (gameConfig.level === 'lvl_2') {
-      minAngka = 1; maxAngka = 10;
-    } else if (gameConfig.level === 'lvl_3') {
-      minAngka = 5; maxAngka = 12;
-    }
-  } else {
-      if (gameConfig.mode === 'challenge') {
-    if (gameConfig.level === 'lvl_1') {
-      minAngka = 1; maxAngka = 5;
-    } else if (gameConfig.level === 'lvl_2') {
-      minAngka = 1; maxAngka = 10;
-    } else if (gameConfig.level === 'lvl_3') {
-      minAngka = 5; maxAngka = 12;
-    }
-  }
+function acakSoal ()
+{
+  if (gameConfig.Variabel === 1
+  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =10; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} 
+  else
+   if (gameConfig.Level === 2){ minAngka =1; maxAngka =20; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;} 
+  else
+   if (gameConfig.Level === 3) { minAngka =1; maxAngka =35; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;} 
+  else
+   if (gameConfig.Level === 4){ minAngka =-20; maxAngka =50; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;} }
+ 
+  if (gameConfig.Variabel === 2
+  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =5; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;} 
+  else
+   if (gameConfig.Level === 2){ minAngka =1; maxAngka =8; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} 
+  else
+   if (gameConfig.Level === 3) { minAngka =1; maxAngka =12; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;} 
+  else
+   if (gameConfig.Level === 4){ minAngka =-10; maxAngka =15; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;} }
+  
+  if (gameConfig.Variabel === 3
+  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =3; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1800;} 
+  else
+   if (gameConfig.Level === 2){ minAngka =1; maxAngka =5; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1500;} 
+  else
+   if (gameConfig.Level === 3) { minAngka =1; maxAngka =8; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;} 
+  else
+   if (gameConfig.Level === 4){ minAngka =-5; maxAngka =10; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} }
 }
