@@ -1,9 +1,11 @@
+
+  
 // Konfigurasi game utama (Bisa diubah berdasarkan level) 
 let gameConfig = {
   Mode: 'Latihan',
-  Variabel: 'PLSV', 
+  Variabel: 1, 
   Waktu: 'Tanpa_Waktu',
-  Level: 'Level_1'
+  Level: 1
 };
 
 //Fungsi mengaktifkan dan menonaktifkan waktu
@@ -37,15 +39,16 @@ let timeinterval= null;
 function updateTampilanTimer (detik) {
   const elTimer = document.getElementById ("timer"); if(!elTimer) return;
   
-  if (detik === null || detik === undefined || isNaN (detik)) { elTimer. innerText = "00:00"; return; }
+  if (detik === null || detik === undefined || isNaN (detik)) { elTimer.innerText = "00:00"; return; }
   
   const m = Math.floor(detik/60).toString().padStart(2,'0');
-eltimer.innerText: m + ":" + s;}
+elTimer.innerText: m + ":" + s;}
 
 //Hentikan interval timer
 function hentikanTimer () {
   if (timeInterval) {
-    clearInterval (timerInterval); clearInterval = null;
+    clearInterval (timerInterval); 
+    timerInterval = null;
   }
 }
 
@@ -56,7 +59,20 @@ let Total_target; // hasil total
   
 // Hasil game
 let skor = 0;
-  
+
+function gantiMode() {
+  const btnMode = document.getElementById ('switch-Mode');
+
+  if (gameConfig.Mode === 'Latihan') {gameConfig.Mode = 'Tantangan';
+  if (btnMode) btnMode.innerText = 'Tantangan';
+  pilihMode('Tantangan');}
+
+  else {
+    gameConfig.Mode = 'Latihan';
+  if (btnMode) btnMode.innerText = 'Latihan'; pilihMode('Latihan')
+  }
+}
+
 // Fungsi mulai game
 function mulai_game() {
   skor = 0;
@@ -64,12 +80,12 @@ function mulai_game() {
   if (elSkor) elSkor.innerText = skor;
   
 //Mengacak soal
-  acakSoal() 
+  acakSoal();
 
   const nilai_x : document.getElementById ('jawaban_x');
   const nilai_y : document.getElementById ('jawaban_y');
   const nilai_z : document.getElementById ('jawaban_z');
- const btncek : document.getElementById ('cek');
+  const btncek : document.getElementById ('cek');
 
   if (nilai_x && nilai_y && nilai_z) 
   {
@@ -90,8 +106,8 @@ function mulai_game() {
 
   hentikanTimer();
 
-  if (gameConfig.waktu !=='tanpa_waktu') {
-  parselnt(gameConfig.waktu,10);
+  if (gameConfig.Waktu !=='tanpa_waktu') {
+  parselnt(gameConfig.Waktu,10);
  updateTampilanTimer (waktuSisa);
   
   timerInterval = setInterval(function(){waktuSisa--; 
@@ -99,9 +115,9 @@ function mulai_game() {
   if (waktuSisa <= 0) {
         hentikanTimer();
 
-        if (jawaban_x) jawaban_x.disabled = true;
-        if (jawaban_y) jawaban_y.disabled = true;
-        if (jawaban_z) jawaban_z.disabled = true;
+        if (nilai_x) nilai_x.disabled = true;
+        if (nilai_y) nilai_y.disabled = true;
+        if (nilai_z) nilai_z.disabled = true;
         if (cek) cek.disabled = true;
 
         const pesan = document.getElementById("pesan-hasil");
@@ -113,32 +129,100 @@ function mulai_game() {
 }
 
 //Fungsi acak soal
-function acakSoal ()
-{
-  if (gameConfig.Variabel === 1
-  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =10; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} 
-  else
-   if (gameConfig.Level === 2){ minAngka =1; maxAngka =20; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;} 
-  else
-   if (gameConfig.Level === 3) { minAngka =1; maxAngka =35; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;} 
-  else
-   if (gameConfig.Level === 4){ minAngka =-20; maxAngka =50; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;} }
- 
-  if (gameConfig.Variabel === 2
-  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =5; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;} 
-  else
-   if (gameConfig.Level === 2){ minAngka =1; maxAngka =8; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} 
-  else
-   if (gameConfig.Level === 3) { minAngka =1; maxAngka =12; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;} 
-  else
-   if (gameConfig.Level === 4){ minAngka =-10; maxAngka =15; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;} }
-  
-  if (gameConfig.Variabel === 3
-  { if (gameConfig.Level === 1) { minAngka =1; maxAngka =3; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1800;} 
-  else
-   if (gameConfig.Level === 2){ minAngka =1; maxAngka =5; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1500;} 
-  else
-   if (gameConfig.Level === 3) { minAngka =1; maxAngka =8; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;} 
-  else
-   if (gameConfig.Level === 4){ minAngka =-5; maxAngka =10; if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;} }
+function acakSoal () {
+  if (gameConfig.Variabel === 1) {
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =10;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =20;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =35;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;}
+  else if (gameConfig.Level === 4){minAngka =-20; maxAngka =50;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;}
+  }
+    
+  else if (gameConfig.Variabel === 2) {
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =5;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;}
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =8;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =12;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;}
+  else if (gameConfig.Level === 4){minAngka =-10; maxAngka =15;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;}
+  }
+
+  else if (gameConfig.Variabel === 3) {
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =3;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1800;}
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =5;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1500;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =8;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;}
+  else if (gameConfig.Level === 4){minAngka =-5; maxAngka =10;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
+  }
+
+  const labelRange = document.getElementById ("label-range");
+
+  if (labelRange) {
+    let namaMateri = "";
+
+    if (gameConfig.Variabel === 1) namaMateri ="Persamaan Linear Satu Variabel";
+    else if (gameConfig.Variabel === 2) namaMateri ="Sistem Persamaan Linear Dua Variabel";
+    else if (gameConfig.Variabel === 3) namaMateri ="Sistem Persamaan Linear Tiga Variabel";
+
+    labelRange.innerText = namaMateri + " | Tingkat Kesulitan: " + gameConfig.Level;
+  }
 }
+
+function buatSoalPLSV (pola, minAngka, maxAngka) {
+  // Helper untuk ambil angka acak yang bukan 0
+ const acak (min, max) => {
+   let n = Math.floor (Math.Random() *(max-min+1)) + min;
+   return n === 0 ? 1 : n;
+ };
+
+  let x = acak(minAngka, maxAngka);
+  //Kunci jawaban
+  let a, b, c, d, teks;
+
+  switch(pola) {
+    // Pola 1: x + b = c atau x - b = c
+    case 1: 
+      b = acak(minAngka, maxAngka);
+      c = x + b;
+      teks = b >= 0 ? 'x + ${b} = ${c}' : 'x - ${Math.abs(b)} = ${c}';
+      break;
+
+    // Pola 2: ax = c
+    case 2:
+      a = acak(2, 5);
+      c = a * x;
+      teks = '${a}x = ${c}';
+      break;
+
+    // Pola 3: ax + b = c
+    case 3:
+      a = acak(2, 5);
+      b = acak(minAngka, maxAngka);
+      c = (a * x) + b;
+      teks = b >= 0 ? '${a}x + ${b} = ${c}': '${a}x - ${Math.abs(b)} = ${c}';
+      breaks;
+
+    // Pola 4: ax + b = cx + d (Variabel di kedua sisi)
+    case 4:
+      a = acak(3, 6);
+      c = acak(1, a - 1); // Dipastikan c < a agar koefisien positif
+      b = acak(minAngka, maxAngka);
+      d = (a - c) * x + b;
+
+      let teksB = b >= 0 ? '+ ${b}' : '- ${Math.Abs(b)}';
+      let teksD = d >= 0 ? '+ ${d}' : '- ${Math.Abs(d)}';
+      teks = '${a}x + ${teksB} = ${c}x + ${teksD}';
+      breaks;
+
+      
+  }
+}
+
