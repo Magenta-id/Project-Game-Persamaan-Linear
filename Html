@@ -1,8 +1,15 @@
 <!-- Tombol pemilih mode (Trial/Challenge) -->
-<button type="button" id="switch-mode" onclick="ganti-mode()">Latihan</button>
+<button type="button" id="switch-Mode" onclick="gantiMode()">Latihan</button>
 
 <!-- Tombol Switch-mode 1v / 2v / 3v --->
-<button type="button" id="switch-var" onclick="ganti-var()">Satu Variabel</button>
+<details>
+  <summary>
+    Variabel
+  </summary>
+  <button type="button" onclick="Variabel(1)">PLSV</button>
+  <button type="button" onclick="Variabel(2)">SPLDV</button>
+  <button type="button" onclick="Variabel(3)">SPLTV</button>
+</details>
 
 <!-- Timer -->
 <div id="timer">00:00</div>
@@ -15,28 +22,30 @@
   <button type="button" onclick="pilihLevel(1)">Level 1</button>
   <button type="button" onclick="pilihLevel(2)">Level 2</button>
   <button type="button" onclick="pilihLevel(3)">Level 3</button>
+  <button type="button" onclick="pilihLevel(4)">Level 4</button>
 </details>
 
 <!-- Pemilih waktu -->
 <details id="Wrap-waktu">
   <summary>Opsi Waktu</summary>
-<button type="button" onclick="waktu('tanpa_waktu')">Tanpa Waktu</button>
+<button type="button" onclick="waktu('Tanpa_waktu')">Tanpa Waktu</button>
 <button type="button" onclick="waktu(180)">3 Menit</button>
   <button type="button" onclick="waktu(300)">5 Menit</button>
   <button type="button" onclick="waktu(600)">10 Menit</button>
 </details>
   
 <!-- Area Soal -->
+<div id="label-range">Tingkat Kesulitan: </div>
 <div id="Soal">Memuat Soal...</div>
 
 <!-- Area Menjawab game -->
 <button id="mulai" type="button" onclick="mulai_game()">Mulai</button>
 
-<input id="jawaban_x" type="number" placeholder="Nilai x">
-<input id="jawaban_y" type="number" placeholder="Nilai y" style="display: none;">
-<input id="jawaban_z" type="number" placeholder="Nilai z" style="display: none;">
+<input id="jawaban_x" disabled type="number" placeholder="Nilai x">
+<input id="jawaban_y" disabled type="number" placeholder="Nilai y" style="display: none;">
+<input id="jawaban_z" disabled type="number" placeholder="Nilai z" style="display: none;">
 
-<button id="cek" onclick="cek_jawaban()" type="button">Cek</button>
+<button id="cek" disabled onclick="cek_jawaban()" type="button">Cek</button>
 
 <!-- Hasil & skor -->
 <div id="pesan hasil"></div>
