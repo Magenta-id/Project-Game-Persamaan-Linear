@@ -1,5 +1,3 @@
-
-  
 // Konfigurasi game utama (Bisa diubah berdasarkan level) 
 let gameConfig = {
   Mode: 'Latihan',
@@ -59,6 +57,11 @@ let Total_target; // hasil total
   
 // Hasil game
 let skor = 0;
+
+// Penampung jawaban
+let kunciJawabanX;
+let kunciJawabanY;
+let kunciJawabanZ;
 
 function gantiMode() {
   const btnMode = document.getElementById ('switch-Mode');
@@ -131,14 +134,23 @@ function mulai_game() {
 //Fungsi acak soal
 function acakSoal () {
   if (gameConfig.Variabel === 1) {
-    if (gameConfig.Level === 1){minAngka =1; maxAngka =10;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
-  else if (gameConfig.Level === 2){minAngka =1; maxAngka =20;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;}
-  else if (gameConfig.Level === 3){minAngka =1; maxAngka =35;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;}
-  else if (gameConfig.Level === 4){minAngka =-20; maxAngka =50;
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =10; pola = 1
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;}
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =20; pola = Math.floor(Math.random()*2) +1;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 240;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =35; pola = Math.floor (Math.random()*3) + 1;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 240;}
+  else if (gameConfig.Level === 4){minAngka =-20; maxAngka =50; pola = Math.floor (Math.random()*5) + 1;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;}
+
+    // Memanggil fungsi racik soal
+    const hasilRacikan = buatSoalPLSV (pola, minAngka, maxAngka);
+
+    // Menampilkan teks soal ke layar
+    const teksSoalEl = document.getElementById ("Soal");
+    if (teksSoalEl) teksSoalEl.innerHTML = hasilRacikan.teksSoal;
+
+    kunciJawabanX = hasilRacikan.jawaban_x;
   }
     
   else if (gameConfig.Variabel === 2) {
@@ -179,7 +191,7 @@ function acakSoal () {
 function buatSoalPLSV (pola, minAngka, maxAngka) {
   // Helper untuk ambil angka acak yang bukan 0
  const acak (min, max) => {
-   let n = Math.floor (Math.Random() *(max-min+1)) + min;
+   let n = Math.floor (Math.random() *(max-min+1)) + min;
    return n === 0 ? 1 : n;
  };
 
@@ -208,7 +220,7 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
       b = acak(minAngka, maxAngka);
       c = (a * x) + b;
       teks = b >= 0 ? '${a}x + ${b} = ${c}': '${a}x - ${Math.abs(b)} = ${c}';
-      breaks;
+      break;
 
     // Pola 4: ax + b = cx + d (Variabel di kedua sisi)
     case 4:
@@ -217,12 +229,23 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
       b = acak(minAngka, maxAngka);
       d = (a - c) * x + b;
 
-      let teksB = b >= 0 ? '+ ${b}' : '- ${Math.Abs(b)}';
-      let teksD = d >= 0 ? '+ ${d}' : '- ${Math.Abs(d)}';
+      let teksB = b >= 0 ? '+ ${b}' : '- ${Math.abs(b)}';
+      let teksD = d >= 0 ? '+ ${d}' : '- ${Math.abs(d)}';
       teks = '${a}x + ${teksB} = ${c}x + ${teksD}';
-      breaks;
+      break;
 
-      
+    // Pola 5: a(x + b) = c (Bentuk kurung / distributif)
+    case 5:
+      a = acak(2, 5);
+      b = acak(minAngka, maxAngka);
+      c = a * (x + b);
+      teks = b >= 0 ? '${a}(x + ${b}) = ${c}' : '${a}(x - ${Math.abs(b)}) = ${c}';
+      break;
+
+    default:
+      teks = 'x = ${x}';
   }
+  // Mengembalikan hasil racikan
+  return {teksSoal : teks, jawaban_x:x};
 }
 
