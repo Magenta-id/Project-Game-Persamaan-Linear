@@ -143,25 +143,34 @@ function acakSoal () {
   else if (gameConfig.Level === 4){minAngka =-20; maxAngka =50; pola = Math.floor (Math.random()*5) + 1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 300;}
 
-    // Memanggil fungsi racik soal
-    const hasilRacikan = buatSoalPLSV (pola, minAngka, maxAngka);
+    // Memanggil fungsi soal
+    const hasilPlsv = buatSoalPLSV (pola, minAngka, maxAngka);
 
     // Menampilkan teks soal ke layar
     const teksSoalEl = document.getElementById ("Soal");
-    if (teksSoalEl) teksSoalEl.innerHTML = hasilRacikan.teksSoal;
+    if (teksSoalEl) teksSoalEl.innerHTML = hasilPlsv.teksSoal;
 
-    kunciJawabanX = hasilRacikan.jawaban_x;
+    kunciJawabanX = hasilPlsv.jawaban_x;
   }
+    //* adalah jumlah pola yang diinginkan (misal *5 maka yg keluar adalah lima pola) , sedangkan+ adalah titik start polanya (misal +2 maka pola yg keluar karena tadinya*5 adalah pola 2-5 saja)
     
   else if (gameConfig.Variabel === 2) {
-    if (gameConfig.Level === 1){minAngka =1; maxAngka =5;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;}
-  else if (gameConfig.Level === 2){minAngka =1; maxAngka =8;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
-  else if (gameConfig.Level === 3){minAngka =1; maxAngka =12;
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =5; minKoef =1; maxKoef =1; pola =1
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 600;}
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =8; minKoef =2; maxKoef =5; pola =Math.floor (Math.random()*2) + 1;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 750;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =12; minKoef =; maxKoef =; pola =Math.floor(Math.random()*3) + 1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;}
-  else if (gameConfig.Level === 4){minAngka =-10; maxAngka =15;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 480;}
+  else if (gameConfig.Level === 4){minAngka =-10; maxAngka =15; minKoef =2; maxKoef =10;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 600;}
+
+    const hasilSpldv = buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef);
+
+    const teksSoalEl = document.getElementById ("Soal");
+    if (teksSoalEl) teksSoalEl.innerHTML = hasilSpldv.teksSoal;
+
+    kunciJawabanX = hasilSpldv.jawaban_x;
+    kunciJawabanY = hasilSpldv.jawaban_y;
   }
 
   else if (gameConfig.Variabel === 3) {
@@ -188,6 +197,7 @@ function acakSoal () {
   }
 }
 
+// Pola untuk PLSV
 function buatSoalPLSV (pola, minAngka, maxAngka) {
   // Helper untuk ambil angka acak yang bukan 0
  const acak (min, max) => {
@@ -204,14 +214,16 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
     case 1: 
       b = acak(minAngka, maxAngka);
       c = x + b;
-      teks = b >= 0 ? 'x + ${b} = ${c}' : 'x - ${Math.abs(b)} = ${c}';
+      teks = b >= 0 
+        ? `x + ${b} = ${c}` 
+        : `x - ${Math.abs(b)} = ${c}`;
       break;
 
     // Pola 2: ax = c
     case 2:
       a = acak(2, 5);
       c = a * x;
-      teks = '${a}x = ${c}';
+      teks = `${a}x = ${c}`;
       break;
 
     // Pola 3: ax + b = c
@@ -219,7 +231,9 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
       a = acak(2, 5);
       b = acak(minAngka, maxAngka);
       c = (a * x) + b;
-      teks = b >= 0 ? '${a}x + ${b} = ${c}': '${a}x - ${Math.abs(b)} = ${c}';
+      teks = b >= 0 
+        ? `${a}x + ${b} = ${c}`
+        : `${a}x - ${Math.abs(b)} = ${c}`;
       break;
 
     // Pola 4: ax + b = cx + d (Variabel di kedua sisi)
@@ -231,21 +245,82 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
 
       let teksB = b >= 0 ? '+ ${b}' : '- ${Math.abs(b)}';
       let teksD = d >= 0 ? '+ ${d}' : '- ${Math.abs(d)}';
-      teks = '${a}x + ${teksB} = ${c}x + ${teksD}';
+      teks = `${a}x + ${teksB} = ${c}x + ${teksD}`;
       break;
 
     // Pola 5: a(x + b) = c (Bentuk kurung / distributif)
     case 5:
-      a = acak(2, 5);
+      a = acak(2, 6);
       b = acak(minAngka, maxAngka);
       c = a * (x + b);
-      teks = b >= 0 ? '${a}(x + ${b}) = ${c}' : '${a}(x - ${Math.abs(b)}) = ${c}';
+      teks = b >= 0 
+        ? `${a}(x + ${b}) = ${c}`
+        : `${a}(x - ${Math.abs(b)}) = ${c}`;
       break;
 
     default:
-      teks = 'x = ${x}';
+      teks = `x = ${x}`;
   }
   // Mengembalikan hasil racikan
   return {teksSoal : teks, jawaban_x:x};
 }
 
+function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
+  // Helper untuk ambil angka acak yang bukan 0
+ const acak (min, max) => {
+   let n = Math.floor (Math.random() *(max-min+1)) + min;
+   return n === 0 ? 1 : n;
+ };
+
+  let x = acak(minAngka, maxAngka);
+  let y = acak(minAngka, maxAngka);
+  //Kunci jawaban
+  let a, b, c, d, e, f, teks;
+
+  switch(pola) {
+    // Pola 1: x + y = w1 dan x - y = w2 (a+b=c dan d-e=f)
+    case 1
+      c = x + y;
+      f = x - y;
+      teks = `x + y = ${c}<br>x - y = ${f}`;
+      break;
+      
+    // Pola 2: ax + y = c dan x + y = f
+    case 2
+      a = acak(2, maxKoef);
+      c = (a * x) + y;
+      f = x + y;
+      teks = `${a}x + y = $(c)<br>x + y = ${f}`;
+      break;
+
+    // Pola 3: ax + by = c dan x + ey = f
+    case 3
+      a = acak(2, maxKoef);
+      b = acak(2, maxKoef);
+      c = (a * x) + (b * y);
+      e = acak(2, maxKoef);
+      f = x + (e * y);
+      teks = b >= 0 && e >=0 
+        ? `${a}x + ${b}y = ${c}<br>x + ${e}y = ${f}`
+        : `${a}x - ${Math.abs(b)}y = ${c}<br>x - ${Math.abs(e)}y = ${f}`;
+      break;
+
+    // Pola 4: ax + by = c dan dx + ey = f
+    case 4
+      a = acak(2, maxKoef);
+      b = acak(-minKoef, maxKoef);
+      c = (a * x) + (b * y);
+      d = acak(2, maxKoef);
+      e = acak(2, maxKoef);
+      f = (d * x) + (e * y);
+      teks = b >= 0 && e >=0 
+        ? `${a}x + ${b}y = ${c}<br>x + ${e}y = ${f}`
+        : `${a}x - ${Math.abs(b)}y = ${c}<br>x - ${Math.abs(e)}y = ${f}`;
+      break;
+
+    default:
+      teks = `x = ${x}`;
+  }
+  // Mengembalikan hasil racikan
+  return {teksSoal : teks, jawaban_x:x, jawaban_y:y};
+}
