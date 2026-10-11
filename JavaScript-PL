@@ -161,7 +161,7 @@ function acakSoal () {
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 750;}
   else if (gameConfig.Level === 3){minAngka =1; maxAngka =12; minKoef =; maxKoef =; pola =Math.floor(Math.random()*3) + 1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 720;}
-  else if (gameConfig.Level === 4){minAngka =-10; maxAngka =15; minKoef =2; maxKoef =10;
+  else if (gameConfig.Level === 4){minAngka =-10; maxAngka =15; minKoef =2; maxKoef =10; pola =Math.floor(Math.random()*4) + 1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 600;}
 
     const hasilSpldv = buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef);
@@ -174,14 +174,23 @@ function acakSoal () {
   }
 
   else if (gameConfig.Variabel === 3) {
-    if (gameConfig.Level === 1){minAngka =1; maxAngka =3;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1800;}
-  else if (gameConfig.Level === 2){minAngka =1; maxAngka =5;
-    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1500;}
-  else if (gameConfig.Level === 3){minAngka =1; maxAngka =8;
+    if (gameConfig.Level === 1){minAngka =1; maxAngka =3; pola =1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 1200;}
-  else if (gameConfig.Level === 4){minAngka =-5; maxAngka =10;
+  else if (gameConfig.Level === 2){minAngka =1; maxAngka =5; minKoef =2; maxKoef =3; pola =Math.floor(Math.random()*2) +1;
     if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
+  else if (gameConfig.Level === 3){minAngka =1; maxAngka =8; minKoef =2; maxKoef =4; pola =Math.floor(Math.random()*3) + 1;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 600;}
+  else if (gameConfig.Level === 4){minAngka =-5; maxAngka =10; minKoef =-3; maxKoef =5;
+    if (gameConfig.Mode === 'Tantangan') gameConfig.Waktu = 900;}
+
+    const hasilSpltv = buatSoalSPLTV (pola, minAngka, maxAngka, minKoef, maxKoef);
+
+    const teksSoalEl = document.getElementById ("Soal");
+    if (teksSoalEl) teksSoalEl.innerHTML = hasilSpltv.teksSoal;
+
+    kunciJawabanX = hasilSpltv.jawaban_x;
+    kunciJawabanY = hasilSpltv.jawaban_y;
+    kunciJawabanZ = hasilSpltv.jawaban_z;
   }
 
   const labelRange = document.getElementById ("label-range");
@@ -199,7 +208,7 @@ function acakSoal () {
 
 // Pola untuk PLSV
 function buatSoalPLSV (pola, minAngka, maxAngka) {
-  // Helper untuk ambil angka acak yang bukan 0
+ // Helper untuk ambil angka acak yang bukan 0
  const acak (min, max) => {
    let n = Math.floor (Math.random() *(max-min+1)) + min;
    return n === 0 ? 1 : n;
@@ -228,7 +237,7 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
 
     // Pola 3: ax + b = c
     case 3:
-      a = acak(2, 5);
+      a = acak(2, 8);
       b = acak(minAngka, maxAngka);
       c = (a * x) + b;
       teks = b >= 0 
@@ -266,7 +275,7 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
 }
 
 function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
-  // Helper untuk ambil angka acak yang bukan 0
+ // Helper untuk ambil angka acak yang bukan 0
  const acak (min, max) => {
    let n = Math.floor (Math.random() *(max-min+1)) + min;
    return n === 0 ? 1 : n;
@@ -279,14 +288,14 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
 
   switch(pola) {
     // Pola 1: x + y = w1 dan x - y = w2 (a+b=c dan d-e=f)
-    case 1
+    case 1:
       c = x + y;
       f = x - y;
       teks = `x + y = ${c}<br>x - y = ${f}`;
       break;
       
     // Pola 2: ax + y = c dan x + y = f
-    case 2
+    case 2:
       a = acak(2, maxKoef);
       c = (a * x) + y;
       f = x + y;
@@ -294,7 +303,7 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
       break;
 
     // Pola 3: ax + by = c dan x + ey = f
-    case 3
+    case 3:
       a = acak(2, maxKoef);
       b = acak(2, maxKoef);
       c = (a * x) + (b * y);
@@ -306,7 +315,7 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
       break;
 
     // Pola 4: ax + by = c dan dx + ey = f
-    case 4
+    case 4:
       a = acak(2, maxKoef);
       b = acak(-minKoef, maxKoef);
       c = (a * x) + (b * y);
@@ -323,4 +332,68 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
   }
   // Mengembalikan hasil racikan
   return {teksSoal : teks, jawaban_x:x, jawaban_y:y};
+}
+
+
+function buatSoalSPLTV (pola, minAngka, maxAngka, minKoef, maxKoef) {
+ const acak (min, max) => {
+   let n = Math.floor (Math.random()*(max-min+1)) + min;
+   return n === 0 ? 1 : n;
+ };
+
+  let x = acak(minAngka, maxAngka);
+  let y = acak(minAngka, maxAngka);
+  let z = acak(minAngka, maxAngka);
+
+  let a, b, c, d, e, f, g, h, i, j, k, l, teks;
+
+  switch (pola){
+    // Pola 1: a + b + c = d etc... 
+    case 1:
+      d = x + y + z;
+      h = x - y + z;
+      l = x + y - z;
+      teks = `x + y + z = ${d}<br>x - y + z = ${h}<br>x + y - z = ${l}`;
+      break;
+
+    // Pola 2
+    case 2:
+      a = acak(2, maxKoef);
+      d = (a * x) + y + z;
+      f = acak(2, maxKoef);
+      h = x + (f * y) + z;
+      k = acak(2, maxKoef);
+      l = x + y + (k * z);
+
+      let df = f >= 0 ? `+ ${f}` : `- ${Math.abs(f)}`;
+      let dk = k >= 0 ? `+ ${k}` : `- ${Math.abs(k)}`;
+
+      teks = `${a}x + y + z = ${d}<br>x ${df}y + z = ${h}<br>x + y ${dk}z = ${l}`
+      break;
+
+    //Pola 3
+    case 3:
+      a = acak(minKoef, maxKoef);
+      b = acak(minKoef, maxKoef);
+      c = acak(minKoef, maxKoef);
+      d = (a*x) + (b*y) + (c*z);
+      e = acak(minKoef, maxKoef);
+      f = acak(minKoef, maxKoef);
+      g = acak(minKoef, maxKoef);
+      h = (e*x) + (f*y) + (g*z);
+      i = acak(minKoef, maxKoef);
+      j = acak(minKoef, maxKoef);
+      k = acak(minKoef, maxKoef);
+      l = (i*x) + (j*y) + (k*z);
+
+      let tb = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+      let tc = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+      let tf = f >= 0 ? `+ ${f}` : `- ${Math.abs(f)}`;
+      let tg = g >= 0 ? `+ ${g}` : `- ${Math.abs(g)}`;
+      let tj = j >= 0 ? `+ ${j}` : `- ${Math.abs(j)}`;
+      let tk = k >= 0 ? `+ ${k}` : `- ${Math.abs(k)}`;
+
+      teks = `${a}x ${tb}y ${tc}z = ${d}<br>${e}x ${tf}y ${tg}z = ${h}<br>${i}x ${tj}y ${tk}z = ${l}`
+      break;
+  }
 }
