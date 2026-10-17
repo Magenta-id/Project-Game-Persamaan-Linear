@@ -9,20 +9,25 @@ let gameConfig = {
 //Fungsi mengaktifkan dan menonaktifkan waktu
 function pilihMode(modePilihan) { gameConfig.Mode = modePilihan;
 
-  const tombolWaktu = document.querySelectAll ('#Wrap-waktu button') 
+  const tombolWaktu = document.querySelectorAll ('#Wrap-waktu button') 
 
  if (gameConfig.Mode === 'Tantangan'){
    tombolWaktu.forEach (tombol => tombol.disabled = true); } else { tombolWaktu.forEach (tombol => tombol.disabled = false); }
-}                               
+}
+                      
 // Versi tradisional tombolWaktu.forEach(function(tombol) {tombol.disabled = true;});
+
+function Variabel (v){
+  gameConfig.Variabel = v
+}
 
 // Fungsi Penangkap Klik dari HTML
 function pilihLevel (lvl){
   gameConfig.Level = lvl
 }
 
-function Variabel (var){
-  gameConfig.Variabel = var
+function waktu (w) {
+  gameConfig.Waktu = w
 }
 
 // Konfigurasi range
@@ -30,8 +35,8 @@ let minAngka = 1;
 let maxAngka = 5;
   
 // Timer
-let waktusisa= 0;
-let timeinterval= null;
+let waktuSisa= 0;
+let timerInterval= null;
   
 // Format detik menjadi tampilan MM : SS
 function updateTampilanTimer (detik) {
@@ -40,20 +45,7 @@ function updateTampilanTimer (detik) {
   if (detik === null || detik === undefined || isNaN (detik)) { elTimer.innerText = "00:00"; return; }
   
   const m = Math.floor(detik/60).toString().padStart(2,'0');
-elTimer.innerText: m + ":" + s;}
-
-//Hentikan interval timer
-function hentikanTimer () {
-  if (timeInterval) {
-    clearInterval (timerInterval); 
-    timerInterval = null;
-  }
-}
-
-// Variabel Penampung soal
-let Koefisien_A, Koefisien_B, Koefisien_C // angka pengali (a, b, dan c) 
-let Kunci_x, Kunci_y, Kunci_z // Variabel yang bilang
-let Total_target; // hasil total
+elTimer.innerText= m + ":" + s;}
   
 // Hasil game
 let skor = 0;
@@ -68,9 +60,8 @@ function gantiMode() {
 
   if (gameConfig.Mode === 'Latihan') {gameConfig.Mode = 'Tantangan';
   if (btnMode) btnMode.innerText = 'Tantangan';
-  pilihMode('Tantangan');}
-
-  else {
+  pilihMode('Tantangan');
+  } else {
     gameConfig.Mode = 'Latihan';
   if (btnMode) btnMode.innerText = 'Latihan'; pilihMode('Latihan')
   }
@@ -79,38 +70,54 @@ function gantiMode() {
 // Fungsi mulai game
 function mulai_game() {
   skor = 0;
-  const elSkor : document.getElementById ("skor-game"); 
+  const elSkor = document.getElementById ("skor_game"); 
   if (elSkor) elSkor.innerText = skor;
   
 //Mengacak soal
   acakSoal();
 
-  const nilai_x : document.getElementById ('jawaban_x');
-  const nilai_y : document.getElementById ('jawaban_y');
-  const nilai_z : document.getElementById ('jawaban_z');
-  const btncek : document.getElementById ('cek');
+  const nilai_x = document.getElementById ('jawaban_x');
+  const nilai_y = document.getElementById ('jawaban_y');
+  const nilai_z = document.getElementById ('jawaban_z');
+  const btncek  = document.getElementById ('cek');
 
-  if (nilai_x && nilai_y && nilai_z) 
-  {
-    // Buka kunci ketiga input
-    nilai_x.disabled = false;
-    nilai_y.disabled = false;
-    nilai_z.disabled = false;
-
-    // Mengosongkan tiga input
-    nilai_x.value = "";
-    nilai_y.value = "";
-    nilai_z.value = "";
-
-     // Taruh kursor langsung di input pertama (x)
-    nilai_x.focus() 
+  if (gameConfig.Variabel === 1){
+    if (nilai_x){
+      nilai_x.style.display = "inline-block" ; nilai_x.disabled = false; 
+      nilai_x.value = ""; nilai_x.focus();}
+    if (nilai_y){
+      nilai_y.style.display = "none" ; nilai_y.disabled = true;}
+    if (nilai_z){
+      nilai_z.style.display = "none" ; nilai_z.disabled = true;}
+  } else
+  if (gameConfig.Variabel === 2){
+    if (nilai_x){
+      nilai_x.style.display = "inline-block" ; nilai_x.disabled = false; 
+      nilai_x.value = ""; nilai_x.focus();}
+    if (nilai_y){
+      nilai_y.style.display = "inline-block" ; nilai_y.disabled = false; 
+      nilai_y.value = "";}
+    if (nilai_z){
+      nilai_z.style.display = "none" ; nilai_z.disabled = true;}
+  } else
+  if (gameConfig.Variabel === 3){
+    if (nilai_x){
+      nilai_x.style.display = "inline-block" ; nilai_x.disabled = false; 
+      nilai_x.value = ""; nilai_x.focus();}
+    if (nilai_y){
+      nilai_y.style.display = "inline-block" ; nilai_y.disabled = false; 
+      nilai_y.value = "";}
+    if (nilai_z){
+      nilai_z.style.display = "inline-block" ; nilai_z.disabled = false; 
+      nilai_z.value = "";}
   }
+
   if (btncek).disabled = false;
 
   hentikanTimer();
 
   if (gameConfig.Waktu !=='tanpa_waktu') {
-  parselnt(gameConfig.Waktu,10);
+  waktuSisa =parselnt(gameConfig.Waktu,10);
  updateTampilanTimer (waktuSisa);
   
   timerInterval = setInterval(function(){waktuSisa--; 
@@ -128,7 +135,7 @@ function mulai_game() {
           pesan.style.color = "#d32f2f";
           pesan.innerText = "Waktu Habis!"; }
    }
-  },1000) } else { updateTampilanTimer (null);}
+  }, 1000); } else { updateTampilanTimer (null);}
 }
 
 //Fungsi acak soal
@@ -204,6 +211,18 @@ function acakSoal () {
 
     labelRange.innerText = namaMateri + " | Tingkat Kesulitan: " + gameConfig.Level;
   }
+
+  const inp_x = document.getElementById("jawaban_x");
+  const inp_y = document.getElementById("jawaban_y");
+  const inp_z = document.getElementById("jawaban_z");
+
+  // Bersihkan input jika tidak disabled
+  if (inp_x && !inp_x.disabled) inp_x.value ="";
+  if (Inp_y && !inp_y.disabled) inp_y.value ="";
+  if (inp_z && !inp_z.disabled) inp_z.value ="";
+
+  const pesan_inp = document.getElementById("pesan_hasil");
+  if (pesan_inp) pesan_inp.innerText = "";
 }
 
 // Pola untuk PLSV
@@ -231,7 +250,7 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
     // Pola 2: ax = c
     case 2:
       a = acak(2, 5);
-      c = a * x;
+      c = a*x;
       teks = `${a}x = ${c}`;
       break;
 
@@ -239,7 +258,7 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
     case 3:
       a = acak(2, 8);
       b = acak(minAngka, maxAngka);
-      c = (a * x) + b;
+      c = (a*x) + b;
       teks = b >= 0 
         ? `${a}x + ${b} = ${c}`
         : `${a}x - ${Math.abs(b)} = ${c}`;
@@ -297,7 +316,7 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
     // Pola 2: ax + y = c dan x + y = f
     case 2:
       a = acak(2, maxKoef);
-      c = (a * x) + y;
+      c = (a*x) + y;
       f = x + y;
       teks = `${a}x + y = $(c)<br>x + y = ${f}`;
       break;
@@ -306,9 +325,9 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
     case 3:
       a = acak(2, maxKoef);
       b = acak(2, maxKoef);
-      c = (a * x) + (b * y);
+      c = (a*x) + (b*y);
       e = acak(2, maxKoef);
-      f = x + (e * y);
+      f = x + (e*y);
       teks = b >= 0 && e >=0 
         ? `${a}x + ${b}y = ${c}<br>x + ${e}y = ${f}`
         : `${a}x - ${Math.abs(b)}y = ${c}<br>x - ${Math.abs(e)}y = ${f}`;
@@ -318,10 +337,10 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
     case 4:
       a = acak(2, maxKoef);
       b = acak(-minKoef, maxKoef);
-      c = (a * x) + (b * y);
+      c = (a*x) + (b*y);
       d = acak(2, maxKoef);
       e = acak(2, maxKoef);
-      f = (d * x) + (e * y);
+      f = (d*x) + (e*y);
       teks = b >= 0 && e >=0 
         ? `${a}x + ${b}y = ${c}<br>x + ${e}y = ${f}`
         : `${a}x - ${Math.abs(b)}y = ${c}<br>x - ${Math.abs(e)}y = ${f}`;
@@ -359,11 +378,11 @@ function buatSoalSPLTV (pola, minAngka, maxAngka, minKoef, maxKoef) {
     // Pola 2
     case 2:
       a = acak(2, maxKoef);
-      d = (a * x) + y + z;
+      d = (a*x) + y + z;
       f = acak(2, maxKoef);
-      h = x + (f * y) + z;
+      h = x + (f*y) + z;
       k = acak(2, maxKoef);
-      l = x + y + (k * z);
+      l = x + y + (k*z);
 
       let df = f >= 0 ? `+ ${f}` : `- ${Math.abs(f)}`;
       let dk = k >= 0 ? `+ ${k}` : `- ${Math.abs(k)}`;
@@ -395,5 +414,66 @@ function buatSoalSPLTV (pola, minAngka, maxAngka, minKoef, maxKoef) {
 
       teks = `${a}x ${tb}y ${tc}z = ${d}<br>${e}x ${tf}y ${tg}z = ${h}<br>${i}x ${tj}y ${tk}z = ${l}`
       break;
+  }
+}
+
+// Reset tampilan soal
+function resetSoal()
+{
+ skor =0;
+ const elemenSkor = document.getElementById("skor-game");
+  if (elemenSkor) elemenSkor.innerText =skor;
+}
+
+function periksaJawaban(){
+  let pesan = document.getElementById ("pesan-hasil");
+
+  if(gameConfig.Variabel === 1)
+  { let hasilJawabanX = parseInt(document.getElementById("jawaban_x").value);
+    if (isNaN(hasilJawabanX))
+    { pesan.style.color = "#b9770e"; pesan.innerHTML = " Isi angka dulu!"; return;}
+    if (hasilJawabanX === kunciJawabanX) {skenarioBenar();} else {skenarioSalah();}
+  } 
+  else if(gameConfig.Variabel === 2)
+  { let hasilJawabanX = parseInt(document.getElementById("jawaban_x").value);
+    let hasilJawabanY = parseInt(document.getElementById("jawaban_y").value);
+    if (IsNaN(hasilJawabanX) || IsNaN(hasilJawabanY)) 
+    { pesan.style.color = "#b9770e"; pesan.innerHTML = " Isi semua kolom jawaban!"; return;}
+    if (hasilJawabanX === kunciJawabanX && hasilJawabanY === kunciJawabanY) {skenarioBenar();} else {skenarioSalah();}
+  } 
+  else if(gameConfig.Variabel === 3)
+  { let hasilJawabanX = parseInt(document.getElementById("jawaban_x").value);
+    let hasilJawabanY = parseInt(document.getElementById("jawaban_y").value);
+    let hasilJawabanZ = parseInt(document.getElementById("jawaban_z").value)
+    if (isNaN(hasilJawabanX) || isNaN(hasilJawabanY) || isNaN(hasilJawabanZ)) 
+    { pesan.style.color = "#b9770e"; pesan.innerHTML = " Isi semua kolom jawaban!"; return;}
+    if (hasilJawabanX === kunciJawabanX && hasilJawabanY === kunciJawabanY && hasilJawabanZ === kunciJawabanZ) {skenarioBenar();} else {skenarioSalah();}
+}
+
+function skenarioBenar (){
+  let pesan = document.getElementById ("pesan_hasil"); pesan.style.color = "#16a085"; 
+      pesan.innerHTML = "🎉 Benar! 🎊"; skor += 10; document.getElementById 
+      ("skor-game").innerText = skor; setTimeout(acakSoal, 1000);
+}
+
+function skenarioSalah (){
+  let pesan = document.getElementById ("pesan_hasil"); pesan.style.color = "#c0392b"; 
+      pesan.innerHTML = "❌ Salah, Coba lagi! ";
+}
+
+function resetSkor(){
+  skor = 0;
+  const rstSkor : document.getElementById ("skor_game");
+  if (rstSkor) rstSkor.innerText = skor;
+
+  hentikanTimer();
+  acakSoal();
+}
+
+//Hentikan interval timer
+function hentikanTimer () {
+  if (timeInterval) {
+    clearInterval (timerInterval); 
+    timerInterval = null;
   }
 }
