@@ -45,6 +45,7 @@ function updateTampilanTimer (detik) {
   if (detik === null || detik === undefined || isNaN (detik)) { elTimer.innerText = "00:00"; return; }
   
   const m = Math.floor(detik/60).toString().padStart(2,'0');
+  const s = (detik%60).toString().padStart(2, '0');
 elTimer.innerText= m + ":" + s;}
   
 // Hasil game
@@ -116,7 +117,7 @@ function mulai_game() {
 
   hentikanTimer();
 
-  if (gameConfig.Waktu !=='tanpa_waktu') {
+  if (gameConfig.Waktu !=='Tanpa_Waktu') {
   waktuSisa =parseInt(gameConfig.Waktu,10);
  updateTampilanTimer (waktuSisa);
   
@@ -318,7 +319,7 @@ function buatSoalSPLDV (pola, minAngka, maxAngka, minKoef, maxKoef) {
       a = acak(2, maxKoef);
       c = (a*x) + y;
       f = x + y;
-      teks = `${a}x + y = $(c)<br>x + y = ${f}`;
+      teks = `${a}x + y = ${c}<br>x + y = ${f}`;
       break;
 
     // Pola 3: ax + by = c dan x + ey = f
@@ -422,12 +423,12 @@ function buatSoalSPLTV (pola, minAngka, maxAngka, minKoef, maxKoef) {
 function resetSoal()
 {
  skor =0;
- const elemenSkor = document.getElementById("skor-game");
+ const elemenSkor = document.getElementById("skor_game");
   if (elemenSkor) elemenSkor.innerText =skor;
 }
 
 function periksaJawaban(){
-  let pesan = document.getElementById ("pesan-hasil");
+  let pesan = document.getElementById ("pesan_hasil");
 
   if(gameConfig.Variabel === 1)
   { let hasilJawabanX = parseInt(document.getElementById("jawaban_x").value);
@@ -445,7 +446,7 @@ function periksaJawaban(){
   else if(gameConfig.Variabel === 3)
   { let hasilJawabanX = parseInt(document.getElementById("jawaban_x").value);
     let hasilJawabanY = parseInt(document.getElementById("jawaban_y").value);
-    let hasilJawabanZ = parseInt(document.getElementById("jawaban_z").value)
+    let hasilJawabanZ = parseInt(document.getElementById("jawaban_z").value);
     if (isNaN(hasilJawabanX) || isNaN(hasilJawabanY) || isNaN(hasilJawabanZ)) 
     { pesan.style.color = "#b9770e"; pesan.innerHTML = " Isi semua kolom jawaban!"; return;}
     if (hasilJawabanX === kunciJawabanX && hasilJawabanY === kunciJawabanY && hasilJawabanZ === kunciJawabanZ) {skenarioBenar();} else {skenarioSalah();}
@@ -455,7 +456,7 @@ function periksaJawaban(){
 function skenarioBenar (){
   let pesan = document.getElementById ("pesan_hasil"); pesan.style.color = "#16a085"; 
       pesan.innerHTML = "🎉 Benar! 🎊"; skor += 10; document.getElementById 
-      ("skor-game").innerText = skor; setTimeout(acakSoal, 1000);
+      ("skor_game").innerText = skor; setTimeout(acakSoal, 1000);
 }
 
 function skenarioSalah (){
@@ -474,7 +475,7 @@ function resetSkor(){
 
 //Hentikan interval timer
 function hentikanTimer () {
-  if (timeInterval) {
+  if (timerInterval) {
     clearInterval (timerInterval); 
     timerInterval = null;
   }
