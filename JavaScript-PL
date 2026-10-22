@@ -33,6 +33,8 @@ function waktu (w) {
 // Konfigurasi range
 let minAngka = 1;
 let maxAngka = 5;
+let pola, minKoef, maxKoef;
+
   
 // Timer
 let waktuSisa= 0;
@@ -129,9 +131,9 @@ function mulai_game() {
         if (nilai_x) nilai_x.disabled = true;
         if (nilai_y) nilai_y.disabled = true;
         if (nilai_z) nilai_z.disabled = true;
-        if (cek) cek.disabled = true;
+        if (btncek) btncek.disabled = true;
 
-        const pesan = document.getElementById("pesan-hasil");
+        const pesan = document.getElementById("pesan_hasil");
         if (pesan) {
           pesan.style.color = "#d32f2f";
           pesan.innerText = "Waktu Habis!"; }
@@ -272,8 +274,8 @@ function buatSoalPLSV (pola, minAngka, maxAngka) {
       b = acak(minAngka, maxAngka);
       d = (a - c) * x + b;
 
-      let teksB = b >= 0 ? '+ ${b}' : '- ${Math.abs(b)}';
-      let teksD = d >= 0 ? '+ ${d}' : '- ${Math.abs(d)}';
+      let teksB = b >= 0 ? `+ ${b}` : `- ${Math.abs(b)}`;
+      let teksD = d >= 0 ? `+ ${d}` : `- ${Math.abs(d)}`;
       teks = `${a}x + ${teksB} = ${c}x + ${teksD}`;
       break;
 
